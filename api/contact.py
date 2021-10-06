@@ -10,6 +10,10 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
-        self.wfile.write("api = "+os.environ.get('SENDGRID_API_KEY').encode())
+        message = "api = "+os.environ.get('SENDGRID_API_KEY')
+        self.wfile.write(message.encode())
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        print(os.environ)
+        print(os.environ.get('SENDGRID_API_KEY'))
+
         return
