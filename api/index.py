@@ -2,8 +2,8 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 
 
-class Handler(BaseHTTPRequestHandler):
-    def do_get(self):
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
         s = self.path
         dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
         self.send_response(200)
