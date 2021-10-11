@@ -67,13 +67,16 @@ def service_account_login():
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+
+        #TODO ante credenciales no validas?
+
+#        else:
+ #           flow = InstalledAppFlow.from_client_secrets_file(
+  #              'credentials.json', SCOPES)
+   #         creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('keys.json', 'w') as token:
-            token.write(creds.to_json())
+    #    with open('keys.json', 'w') as token:
+     #       token.write(creds.to_json())
 
     service = build('gmail', 'v1', credentials=creds)
 
