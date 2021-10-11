@@ -22,9 +22,20 @@ class handler(BaseHTTPRequestHandler):
         service = service_account_login()
         # Call the Gmail API
         message = create_message(from_email_test, EMAIL_TO, EMAIL_SUBJECT.format(from_name=from_name_test, from_email=from_email_test), EMAIL_CONTENT)
-        if SEND_EMAIL:
+        if SEND_EMAIL.lower() == 'true':
             sent = send_message(service, 'me', message)
             print("Email sent!")
+
+            #TODO errors handling pending
+
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write("Email sent!")
         else:
             print("SEND flag is disabled, email not sent")
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write("Email send is disabled")
         return
