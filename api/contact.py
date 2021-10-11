@@ -31,11 +31,11 @@ class handler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write("Email sent!")
+            self.wfile.write("Email sent!".encode())
         else:
             print("SEND flag is disabled, email not sent")
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write("Email send is disabled")
+            self.wfile.write("Email send is disabled".encode())
         return
