@@ -35,16 +35,16 @@ class handler(BaseHTTPRequestHandler):
             print(body)
             data = json.loads(body)
             print(data)
-            print(data['from_name'])
-            print(data['from_email'])
-            print(data['message'])
+            print(data['form']['from_name'])
+            print(data['form']['from_email'])
+            print(data['form']['message'])
 
 
         if SEND_EMAIL and 'true' == SEND_EMAIL.lower():
             if data:
                 # Call the Gmail API
                 service = service_account_login()
-                message = create_message(data['from_email'], EMAIL_TO, EMAIL_SUBJECT.format(from_name=data['from_name'], from_email=data['from_email']), EMAIL_CONTENT.format(message=data['message']))
+                message = create_message(data['form']['from_email'], EMAIL_TO, EMAIL_SUBJECT.format(from_name=data['form']['from_name'], from_email=data['form']['from_email']), EMAIL_CONTENT.format(message=data['form']['message']))
                 sent = send_message(service, 'me', message)
 
                 #TODO errors handling pending
