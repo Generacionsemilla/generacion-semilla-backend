@@ -18,6 +18,7 @@ SEND_EMAIL = os.environ.get('EMAIL_SEND_ENABLED')
 class handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
         content = self.headers.get('Content-Length')
         data = None
 
