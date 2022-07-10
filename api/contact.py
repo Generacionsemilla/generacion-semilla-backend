@@ -12,7 +12,7 @@ from http.server import BaseHTTPRequestHandler,HTTPServer
 #EMAIL_FROM = os.environ.get('EMAIL_FROM')
 EMAIL_TO = os.environ.get('EMAIL_TO')
 EMAIL_SUBJECT = 'Contacto - Nuevo mensaje desde el sitio de {from_name} <{from_email}>'
-EMAIL_CONTENT = 'Te contactaron del sitio con el siguiente mensaje: {message}'
+EMAIL_CONTENT = 'Te contactaron desde el sitio con el siguiente mensaje: {message}'
 SEND_EMAIL = os.environ.get('EMAIL_SEND_ENABLED')
 
 class handler(BaseHTTPRequestHandler):
