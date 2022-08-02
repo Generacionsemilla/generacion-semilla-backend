@@ -10,6 +10,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+creds = None
 
 def create_message(sender, to, subject, message_text):
     """Create a message for an email.
@@ -50,22 +51,27 @@ def service_account_login():
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
     """
-    creds = None
+    global creds
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('keys.json'):
+    if creds is None and os.path.exists('keys.json'):
         creds = Credentials.from_authorized_user_file('keys.json', SCOPES)
     if not creds:
         info = {
-        "refresh_token": os.environ.get('GMAIL_REFRESH_TOKEN'),
-        "client_id": os.environ.get('GMAIL_CLIENT_ID'),
-        "client_secret": os.environ.get('GMAIL_CLIENT_SECRET')
+            "token": os.environ.get('GMAIL_TOKEN'),
+            "refresh_token": os.environ.get('GMAIL_REFRESH_TOKEN'),
+            "client_id": os.environ.get('GMAIL_CLIENT_ID'),
+            "client_secret": os.environ.get('GMAIL_CLIENT_SECRET'),
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "scopes": SCOPES,
+            "expiry":  os.environ.get('GMAIL_TOKEN_EXPIRY')
         }
         creds = Credentials.from_authorized_user_info(info, SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
+            print("creds present but expired, refreshing")
             creds.refresh(Request())
 
         #TODO ante credenciales no validas?
@@ -74,8 +80,9 @@ def service_account_login():
         #flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
         #creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('keys.json', 'w') as token:
-            token.write(creds.to_json())
+        #file write doesn't work on vercel, so we use global object
+        #with open('keys.json', 'w') as token:
+        #    token.write(creds.to_json())
 
     service = build('gmail', 'v1', credentials=creds)
 
