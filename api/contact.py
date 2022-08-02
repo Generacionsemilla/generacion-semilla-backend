@@ -26,6 +26,10 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
+        self.send_header('Access-Control-Allow-Origin', 'https://www.generacionsemilla.ar')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         content = self.headers.get('Content-Length')
         data = None
 
