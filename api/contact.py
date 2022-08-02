@@ -19,17 +19,13 @@ class handler(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200, "ok")
-        self.send_header('Access-Control-Allow-Origin', 'https://www.generacionsemilla.ar')
+        self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
     def do_POST(self):
-        self.send_header('Access-Control-Allow-Origin', 'https://www.generacionsemilla.ar')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         content = self.headers.get('Content-Length')
         data = None
 
@@ -55,7 +51,7 @@ class handler(BaseHTTPRequestHandler):
 
                 self.send_response(200)
                 self.send_header('Content-type', 'text/plain')
-                self.send_header('Access-Control-Allow-Origin', 'https://www.generacionsemilla.ar')
+                self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
                 self.wfile.write("Email sent!".encode())
             else:
@@ -63,7 +59,7 @@ class handler(BaseHTTPRequestHandler):
 
         else:
             print("SEND flag is disabled, email not sent")
-            self.send_response(200)
+            self.send_response(503)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write("Email send is disabled".encode())
